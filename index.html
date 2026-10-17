@@ -1,58 +1,119 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Adventure in Bukidnon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechZone Store</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Adventure in Bukidnon</h1>
+<header>
+    <h1>MonTech</h1>
+    <p>Your One-Stop Technology Store</p>
+</header>
 
-    <div class="menu">
-        <a href="#home">Home</a>
-        <a href="#places">Places</a>
-        <a href="#about">About</a>
-    </div>
+<nav>
+    <a href="#home">Home</a>
+    <a href="#brands">Brands</a>
+    <a href="#products">Products</a>
+    <a href="#about">About Us</a>
+</nav>
 
-    <div class="home" id="home">
-        <h2>Welcome to Bukidnon!</h2>
-        <p>Explore beautiful mountains and amazing places.</p>
-    </div>
+<section id="home">
+    <h2>Welcome to MonTech!</h2>
+    <p>Discover the latest technology at affordable prices.</p>
+    <a href="#products">View Products</a>
+</section>
 
-    <div id="places">
-        <h2>Tourist Attractions</h2>
+<section id="products">
+    <h2>Our Products</h2>
 
-        <div class="card">
-            <img src="https://cf-images.assettype.com/sunstar%2F2023-11%2F5039a386-31ef-4dc8-8d0e-11b72f57a233%2Fdahilayan_adventure_park.jpg" alt="Dahilayan">
-            <h3>Dahilayan Adventure Park</h3>
-            <p>A place for fun and adventure.</p>
+    <input type="text" id="search" placeholder="Search products...">
+
+    <select id="brand">
+        <option value="all">All Brands</option>
+        <option value="asus">ASUS</option>
+        <option value="samsung">Samsung</option>
+        <option value="apple">Apple</option>
+        <option value="sony">Sony</option>
+        <option value="jbl">JBL</option>
+        <option value="lenovo">Lenovo</option>
+    </select>
+
+    <div class="products">
+        <div class="product" data-brand="asus lenovo">
+            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&q=80" alt="Laptop">
+            <h3>Laptop</h3>
+            <p>Brand: ASUS / Lenovo</p>
+            <p>Price: ₱35,000</p>
+            <button onclick="buy('Laptop',35000)">Buy Now</button>
         </div>
 
-        <div class="card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN7bMirnLHLa32v5LoSRW7p2Oz3_fsz-SRaAobUfESvj2xWyWpTvwH9p0&s=10" alt="Mount Kitanglad">
-            <h3>Mount Kitanglad</h3>
-            <p>A beautiful mountain in Bukidnon.</p>
+        <div class="product" data-brand="samsung apple">
+            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80" alt="Smartphone">
+            <h3>Smartphone</h3>
+            <p>Brand: Samsung / Apple</p>
+            <p>Price: ₱15,000</p>
+            <button onclick="buy('Smartphone',15000)">Buy Now</button>
         </div>
 
-        <div class="card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6YU3ObH_9nZzs0x9JzvTuv5JzcHLuraYzvPMcEEaH0zfX4suJFM0L-Uw8&s=10" alt="Communal Ranch">
-            <h3>Communal Ranch</h3>
-            <p>A place with beautiful green hills.</p>
+        <div class="product" data-brand="sony jbl">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80" alt="Headphones">
+            <h3>Headphones</h3>
+            <p>Brand: Sony / JBL</p>
+            <p>Price: ₱2,000</p>
+            <button onclick="buy('Headphones',2000)">Buy Now</button>
+        </div>
+
+        <div class="product" data-brand="samsung apple">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80" alt="Smartwatch">
+            <h3>Smartwatch</h3>
+            <p>Brand: Samsung / Apple</p>
+            <p>Price: ₱3,500</p>
+            <button onclick="buy('Smartwatch',3500)">Buy Now</button>
         </div>
     </div>
+    <p id="noResults" hidden>No products found.</p>
+</section>
 
-    <div id="about">
-        <h2>About Bukidnon</h2>
-        <p>
-            Bukidnon is a province in Mindanao known for
-            its beautiful mountains, green landscapes,
-            and tourist attractions.
-        </p>
-    </div>
+<section id="about">
+    <h2>About Us</h2>
+    <p>TechZone sells laptops, smartphones, headphones, and smartwatches.</p>
+</section>
 
-    <footer>
-        <p>Adventure in Bukidnon | 2026</p>
-    </footer>
+<footer>
+    <p>&copy; 2026 TechZone. All rights reserved.</p>
+</footer>
+
+<script>
+function searchProducts() {
+    let search = document.getElementById("search").value.toLowerCase();
+    let brand = document.getElementById("brand").value;
+    let products = document.querySelectorAll(".product");
+    let count = 0;
+
+    products.forEach(function(product) {
+        let name = product.innerText.toLowerCase();
+        let brands = product.dataset.brand.split(" ");
+        let match = name.includes(search) &&
+                    (brand === "all" || brands.includes(brand));
+
+        product.style.display = match ? "" : "none";
+        if (match) count++;
+    });
+
+    document.getElementById("noResults").hidden = count > 0;
+}
+
+document.getElementById("search").addEventListener("input", searchProducts);
+document.getElementById("brand").addEventListener("change", searchProducts);
+
+function buy(name, price) {
+    alert("You selected " + name + "\nPrice: ₱" + price.toLocaleString("en-PH"));
+}
+</script>
 
 </body>
 </html>
